@@ -1,0 +1,14 @@
+{
+  "name": "my_nodejs_app",
+  "version": "1.0.0",
+  "description": "node js complete guide",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hari Kumar Saini",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
