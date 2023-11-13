@@ -1,9 +1,27 @@
-// route.js
 const fs = require('fs');
 
 function handleHome(req, res) {
     res.setHeader('Content-Type', 'text/html');
-    res.write('<html><body>Welcome home</body></html>');
+    res.write('<html><body>');
+    res.write('<h1>Welcome home</h1>');
+    res.write('<form action="/products" method="POST">');
+    res.write('<input type="text" name="title" placeholder="Enter title">');
+    res.write('<button type="submit">Submit</button>');
+    res.write('</form>');
+    res.write('</body></html>');
+    return res.end();
+}
+
+function handleProducts(req, res) {
+    res.setHeader('Content-Type', 'text/html');
+    
+    // Check if req.body is defined
+    if (req.body && req.body.title) {
+        res.write(`<html><body><h1>${req.body.title}</h1></body></html>`);
+    } else {
+        res.write('<html><body><h1>No title provided</h1></body></html>');
+    }
+
     return res.end();
 }
 
@@ -42,7 +60,7 @@ function handleRoot(req, res) {
             '<body><form action="/message" method="POST"><input type="text" name="message"><button>Submit</button></form>'
         );
 
-        // Reading the file......
+        // Reading the file...
         const message = fs.readFileSync('message.txt', 'utf8');
         res.write(`<p>Message from file: ${message}</p>`);
         res.write('</body></html>');
@@ -50,9 +68,15 @@ function handleRoot(req, res) {
     }
 }
 
+function handleAddProduct(req, res) {
+    res.send('<h1>Add Products in Express!</h1>');
+}
+
 module.exports = {
     handleHome,
     handleAbout,
     handleNode,
     handleRoot,
+    handleAddProduct,
+    handleProducts,
 };

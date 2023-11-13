@@ -83,23 +83,36 @@
 
 // server.js
 
-const http = require('http');
-const route = require('./route');
 const express = require('express');
+const route = require('./route');
 
 const app = express();
 
-app.use((req, res, next) => { 
-    console.log("In the middle ware");
+// Middleware for all routes
+app.use('/', (req, res, next) => {
+    console.log("Middleware for all routes");
     next();
 });
 
-app.use((req, res, next) => { 
-    console.log("In the middle ware");
-    res.send('<h1>Hello from Express js!</h1>');
+// Route handler for home
+app.get('/', route.handleHome);
+
+// Route handler for about
+app.get('/about', route.handleAbout);
+
+// Route handler for node
+app.get('/node', route.handleNode);
+
+// Route handler for root
+app.get('/root', route.handleRoot);
+
+// Route handler for add-product
+app.get('/add-product', route.handleAddProduct);
+
+// Route handler for products (POST)
+app.post('/products', route.handleProducts);
+
+// Start the server
+app.listen(4000, () => {
+    console.log('Server is running on port 4000');
 });
-
-const server = http.createServer(app);
-
-server.listen(4000);
-
