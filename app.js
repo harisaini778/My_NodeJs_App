@@ -85,28 +85,21 @@
 
 const http = require('http');
 const route = require('./route');
+const express = require('express');
 
-const server = http.createServer(function rqListener(req, res) {
-    const url = req.url;
-    const method = req.method;
+const app = express();
 
-    if (url === '/') {
-        route.handleRoot(req, res);
-    } else if (url === '/message' && method === 'POST') {
-        route.handleMessage(req, res);
-    } else if (url === '/home') {
-        route.handleHome(req, res);
-    } else if (url === '/about') {
-        route.handleAbout(req, res);
-    } else if (url === '/node') {
-        route.handleNode(req, res);
-    } else {
-        // Handle other URLs
-        res.setHeader('Content-Type', 'text/html');
-        res.write('<html><body>Page not found</body></html>');
-        res.end();
-    }
+app.use((req, res, next) => { 
+    console.log("In the middle ware");
+    next();
 });
+
+app.use((req, res, next) => { 
+    console.log("In the middle ware");
+    res.send('<h1>Hello from Express js!</h1>');
+});
+
+const server = http.createServer(app);
 
 server.listen(4000);
 
