@@ -25,6 +25,14 @@ const server = http.createServer(function rqListener(req, res) {
         res.write('<head><title>Enter Message</title></head>');
         res.write('<body><form action="/message" method="POST"><input type="text" name="message"><button>Submit</button></body>');
         res.write('</html>');
+
+     // Reading the file......
+
+        const message = fs.readFileSync('message.txt', 'utf8');
+        res.write(`<p>Message from file: ${message}</p>`);
+        res.write('</body></html>');
+
+        
         return res.end();
     }
 
@@ -36,9 +44,10 @@ const server = http.createServer(function rqListener(req, res) {
         });
         req.on('end', () => {
             const parseBody = Buffer.concat(body).toString();
+            const message = parseBody.split('=')[1];
             console.log(parseBody);
+            fs.writeFileSync('message.txt',message);
         });
-        fs.writeFileSync('message.txt', 'DUMMY');
         res.statusCode = 302;
         res.setHeader('Location', '/');
         return res.end();
